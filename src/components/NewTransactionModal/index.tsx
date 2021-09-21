@@ -1,7 +1,10 @@
 import Modal from 'react-modal'
-import { Container } from './styles'
+import { Container, TransactionTypeContainer } from './styles'
 
 import closeSvg from '../../assets/closeVector.svg'
+import incomeSvg from '../../assets/Entradas.svg'
+import outcomeSvg from '../../assets/Saidas.svg'
+
 
 type NewTransactionModalProps = {
   isOpen: boolean;
@@ -29,6 +32,22 @@ export function NewTransactionModal({
         <form>
           <input type="text" placeholder="Título"/>
           <input type="number" placeholder="Valor"/>
+
+          <TransactionTypeContainer>
+            <button
+              type="button"
+            >
+              <img src={incomeSvg} alt="Entrada"/>
+              <span>Entrada</span>
+            </button>
+            <button
+              type="button"
+            >
+              <img src={outcomeSvg} alt="Saída" />
+              <span>Saída</span>
+            </button>
+          </TransactionTypeContainer>
+
           <input type="text" placeholder="Categoria"/>
           <button type="submit">
             Cadastrar
