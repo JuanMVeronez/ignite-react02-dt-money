@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 //lib de utils utilizados para cores principalmente
-import { darken } from "polished"; // o darken em si escurece uma cor com base em um valor 0 - 1
+import { darken, transparentize } from "polished"; // o darken em si escurece uma cor com base em um valor 0 - 1
 
 export const Container = styled.div`
   h2 {
@@ -56,35 +56,47 @@ export const TransactionTypeContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
+`;
 
-  button {
-    height: 4rem;
-    border: 1px solid #d7d7d7;
-    border-radius: 0.25rem;
+type RadioButtonProps = {
+  isActive: boolean;
+  colorWhenActive: 'green' | 'red';
+}
 
-    background: transparent;
+const radioButtonBackgrondColor = {
+  green: '#33CC95',
+  red: '#E62E4D'
+}
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+export const RadioButton = styled.button<RadioButtonProps>`
+  height: 4rem;
+  border: 1px solid #d7d7d7;
+  border-radius: 0.25rem;
 
-    transition: border-color 0.2s;
+  background: ${props => props.isActive ? (
+    transparentize(0.9, radioButtonBackgrondColor[props.colorWhenActive]) 
+  ) : 'transparent'};
 
-    &:hover {
-      border-color: ${darken(0.1, '#d7d7d7')};
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    img {
-      width: 20px;
-      height: 20px;
-    }
+  transition: border-color 0.2s;
 
-    span {
-      display: inline-block;
-      margin-left: 1rem;
-      font-size: 1rem;
-      color: var(--text-title);
-    }
-
+  &:hover {
+    border-color: ${darken(0.1, '#d7d7d7')};
   }
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+
+  span {
+    display: inline-block;
+    margin-left: 1rem;
+    font-size: 1rem;
+    color: var(--text-title);
+  }
+
 `;
