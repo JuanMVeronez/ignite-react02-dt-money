@@ -4,7 +4,8 @@ import { Container, RadioButton, TransactionTypeContainer } from './styles'
 import closeSvg from '../../assets/closeVector.svg'
 import incomeSvg from '../../assets/Entradas.svg'
 import outcomeSvg from '../../assets/Saidas.svg'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
+import { api } from '../../services/api'
 
 
 type NewTransactionModalProps = {
@@ -16,7 +17,23 @@ export function NewTransactionModal({
   isOpen,
   onRequestClose,
 }: NewTransactionModalProps) {
+  const [title, setTitle] = useState('')
+  const [value, setValue] = useState(0)
   const [type, setType] = useState('deposit')
+  const [category, setCategory] = useState('')
+
+  function handleCreateNewTransaction (e: FormEvent) {
+    e.preventDefault()
+
+    const data ={
+      title, 
+      value, 
+      type, 
+      category,
+    };
+
+    api.post('/transactions', data)
+  }
 
   return (
     <Modal
@@ -32,9 +49,15 @@ export function NewTransactionModal({
       <Container>
         <h2>Cadastrar transação</h2>
 
-        <form>
-          <input type="text" placeholder="Título"/>
-          <input type="number" placeholder="Valor"/>
+        <form onSubmit={handleCreateNewTransaction}>
+          <input type="text" placeholder="Título"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+          />
+          <input type="number" placeholder="Valor"
+            value={value}
+            onChange={e => setValue(Number(e.target.value))}
+          />
 
           <TransactionTypeContainer>
             <RadioButton
@@ -57,7 +80,10 @@ export function NewTransactionModal({
             </RadioButton>
           </TransactionTypeContainer>
 
-          <input type="text" placeholder="Categoria"/>
+          <input type="text" placeholder="Categoria"
+            value={category}
+            onChange={e => setCategory(e.target.value)}
+          />
           <button type="submit">
             Cadastrar
           </button>
