@@ -4,8 +4,8 @@ import { Container, RadioButton, TransactionTypeContainer } from './styles'
 import closeSvg from '../../assets/closeVector.svg'
 import incomeSvg from '../../assets/Entradas.svg'
 import outcomeSvg from '../../assets/Saidas.svg'
-import { FormEvent, useContext, useState } from 'react'
-import { TransactionsContext } from '../../TransactionsContext'
+import { FormEvent, useState } from 'react'
+import { useTransactions } from '../../hooks/useTransactions'
 
 
 type NewTransactionModalProps = {
@@ -29,7 +29,7 @@ export function NewTransactionModal({
     setCategory('')
   }
 
-  const { createTransaction } = useContext(TransactionsContext)
+  const { createTransaction } = useTransactions()
 
   async function handleCreateNewTransaction (e: FormEvent) {
     e.preventDefault()
