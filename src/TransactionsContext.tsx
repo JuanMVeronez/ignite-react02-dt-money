@@ -27,7 +27,7 @@ type ContextProviderProps = {
 
 type TransactionsContextData = {
   transactions: Transaction[]
-  createTransaction: (transaction: InputTrasaction) => void
+  createTransaction: (transaction: InputTrasaction) => Promise<void>
 }
 
 export const TransactionsContext = createContext<TransactionsContextData>({} as TransactionsContextData)
@@ -38,13 +38,15 @@ export function TransactionsProvider({children}: ContextProviderProps) {
   useEffect(() => {
     api.get<{transactions: Transaction[]}>('transactions')
     .then(res => {
-      console.log(res.data)
       setTransactions(res.data.transactions)
     })
   }, [])
 
-  function createTransaction(transaction: InputTrasaction) {
-   api.post('/transactions', transaction)
+  async function createTransaction(transactionInput: InputTrasaction) {
+    const res = await api.post('/transactions', transactionInput)
+    const { transaction } = res.data
+    
+    setTransactions([...transactions, transaction])
   }
 
   return (
